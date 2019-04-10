@@ -77,6 +77,7 @@ def create_single_show_stats_array(show_data_json):
             calculate_set2_song_count(setlist),
             calculate_set3_song_count(setlist),
             calculate_encore_song_count(setlist),
+            calculate_encore2_song_count(setlist),
         ],
         [
             "show_date",
@@ -86,6 +87,7 @@ def create_single_show_stats_array(show_data_json):
             "set2_song_count",
             "set3_song_count",
             "encore_song_count",
+            "encore2_song_count",
         ],
     )
 
@@ -101,19 +103,22 @@ def calculate_set1_song_count(setlist):
 
 
 def calculate_set2_song_count(setlist):
-    """Get set 1 song count for the setlist."""
+    """Get set 2 song count for the setlist."""
     return len([song for song in setlist if song["set_label"] == "Set 2"])
 
 
 def calculate_set3_song_count(setlist):
-    """Get set 1 song count for the setlist."""
+    """Get set 3 song count for the setlist."""
     return len([song for song in setlist if song["set_label"] == "Set 3"])
 
 
 def calculate_encore_song_count(setlist):
-    """Get set 1 song count for the setlist."""
+    """Get encore song count for the setlist."""
     return len([song for song in setlist if song["set_label"] == "Encore"])
 
+def calculate_encore2_song_count(setlist):
+    """Get encore 2 song count for the setlist."""
+    return len([song for song in setlist if song["set_label"] == "Encore 2"])        
 
 def get_show_rating(show_data_json):
     """Parse show_data_json for rating."""

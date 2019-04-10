@@ -12,7 +12,7 @@ class TestPhishStats(unittest.TestCase):
     def test_get_single_show(self):
         """Can get single show stats."""
 
-        show_date = '2009-06-21'
+        show_date = '2018-10-21'
         response = get_single_show_data(API_KEY, show_date)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
@@ -64,7 +64,7 @@ class TestPhishStats(unittest.TestCase):
         show_dates = parse_show_dates(response, [1])
         self.assertEqual(len(show_dates), 50)
 
-class TestParseRawShowData(unittest.TestCase):
+class TestParseShowData_1997_12_07(unittest.TestCase):
     """Test case for parsing raw show data json."""
 
     @classmethod
@@ -98,7 +98,7 @@ class TestParseRawShowData(unittest.TestCase):
         """Test create single show vector."""        
         show_stats_array, column_labels = create_single_show_stats_array(self.show_data_json)
         self.assertEqual(str(type(show_stats_array)), "<class 'list'>" )
-        self.assertEqual(show_stats_array, ['1997-12-07', 4.6645, 19, 12, 6, 0, 1])
+        self.assertEqual(show_stats_array, ['1997-12-07', 4.6645, 19, 12, 6, 0, 1, 0])
         self.assertEqual(
             column_labels, 
             [
@@ -108,7 +108,57 @@ class TestParseRawShowData(unittest.TestCase):
                 'set1_song_count',
                 'set2_song_count',
                 'set3_song_count',
-                'encore_song_count'
+                'encore_song_count',
+                'encore2_song_count'
+            ]
+        )                 
+
+class TestDoubleEncoreShow_2018_10_21(unittest.TestCase):
+    """Test case for parsing a double encore show"""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.show_data_json = {'error_code': 0, 'error_message': None, 'response': {'count': 1, 'data': [{'showid': 1526437700, 'showdate': '2018-10-21', 'short_date': '10/21/2018', 'long_date': 'Sunday 10/21/2018', 'relative_date': '6 months ago', 'url': 'http://phish.net/setlists/phish-october-21-2018-hampton-coliseum-hampton-va-usa.html', 'gapchart': 'http://phish.net/setlists/gap-chart/phish-october-21-2018-hampton-coliseum-hampton-va-usa.html', 'artist': "<a href='http://phish.net/setlists/phish'>Phish</a>", 'artistid': 1, 'venueid': 6, 'venue': '<a href="http://phish.net/venue/6/Hampton_Coliseum">Hampton Coliseum</a>', 'location': 'Hampton, VA, USA', 'setlistdata': '<p><span class=\'set-label\'>Set 1</span>: <a href=\'http://phish.net/song/stealing-time-from-the-faulty-plan\' class=\'setlist-song\'>Stealing Time From the Faulty Plan</a>, <a href=\'http://phish.net/song/skin-it-back\' class=\'setlist-song\'>Skin It Back</a>, <a href=\'http://phish.net/song/brian-and-robert\' class=\'setlist-song\'>Brian and Robert</a>, <a href=\'http://phish.net/song/timber-jerry-the-mule\' class=\'setlist-song\'>Timber (Jerry The Mule)</a> > <a title="\nA creeping late-night stroll accented by a descending progression and mysterious Trey soloing then smoothly transitions to bliss and ignites at minute 17 for a joyous, trill-filled peak before slamming back into &quot;Simple&quot; to end." href=\'http://phish.net/song/simple\' class=\'setlist-song\'>Simple</a>, <a href=\'http://phish.net/song/mexican-cousin\' class=\'setlist-song\'>Mexican Cousin</a>, <a title="Mike and Page lead a funky, exploratory back-end jam. The energy builds when Trey jumps in, adding to the mix. Nice to hear this camel have a walk about." href=\'http://phish.net/song/camel-walk\' class=\'setlist-song\'>Camel Walk</a> > <a href=\'http://phish.net/song/back-on-the-train\' class=\'setlist-song\'>Back on the Train</a> > <a href=\'http://phish.net/song/saw-it-again\' class=\'setlist-song\'>Saw It Again</a></p><p><span class=\'set-label\'>Set 2</span>: <a title="The substantial post-lyrics jam visits places both light and dark and eventually settles into a jazzy minor zone with a vibe similar to &quot;Timber Ho&quot; and, in the last minute, &quot;David Bowie&quot;, as it gathers steam and seems poised to explode but makes a good -> to &quot;Rise/Come Together&quot; instead. " href=\'http://phish.net/song/waves\' class=\'setlist-song\'>Waves</a> -> <a href=\'http://phish.net/song/risecome-together\' class=\'setlist-song\'>Rise/Come Together</a> > <a title="The jam peels away from typical playing at around 5:45, shifting to some soft, warm grooving. Picking up energy, the familiar &quot;bliss&quot; jam feels imminent, but instead, the playing shifts to some darker, spacey, Mike-led punchy rock. The intensity builds to a peak, before grinding down." href=\'http://phish.net/song/light\' class=\'setlist-song\'>Light</a> > <a href=\'http://phish.net/song/the-line\' class=\'setlist-song\'>The Line</a>, <a href=\'http://phish.net/song/wingsuit\' class=\'setlist-song\'>Wingsuit</a> > <a href=\'http://phish.net/song/your-pet-cat\' class=\'setlist-song\'>Your Pet Cat</a>, <a href=\'http://phish.net/song/whats-the-use\' class=\'setlist-song\'>What\'s the Use?</a> > <a title="Following a quality piano solo, Trey grabs the marsupial by the scruff of the neck, and proceeds to give it a serious workout. Like many versions from the early \'90s, Trey explores a number of musical ideas and variation, all within the context of &quot;Possum.&quot; Strong, straightforward jamming here." href=\'http://phish.net/song/possum\' class=\'setlist-song\'>Possum</a></p><p><span class=\'set-label\'>Encore</span>: <a href=\'http://phish.net/song/more\' class=\'setlist-song\'>More</a></p><p><span class=\'set-label\'>Encore 2</span>: <a href=\'http://phish.net/song/you-enjoy-myself\' class=\'setlist-song\'>You Enjoy Myself</a>', 'setlistnotes': 'This show was&nbsp;webcast via&nbsp;<a href="http://www.livephish.com/">Live Phish</a>.&nbsp;Skin It Back was played for the first time since August 11, 2015&nbsp;(113&nbsp;shows). Camel Walk included Skin It Back teases. BOTT included a Streets of Cairo tease&nbsp;and Possum included William Tell Overture tease.<br>via <a href="http://phish.net">phish.net</a>', 'rating': '4.1390'}]}}
+
+    def test_get_setlist(self):
+        """Test get setlist of specific date."""        
+        setlist_data = self.show_data_json['response']['data'][0]['setlistdata']
+        setlist = get_setlist(setlist_data)
+        self.assertEqual(len(setlist), 19)
+
+    def test_get_show_rating(self):
+        """Test get show rating."""
+        rating = get_show_rating(self.show_data_json)
+        self.assertEqual(rating, 4.139)
+
+    def test_get_relative_date(self):
+        """Test get relative date."""
+        relative_date = get_relative_show_date(self.show_data_json)
+
+    def test_parse_location(self):
+        """Can get location of show."""
+
+        (city, state, country) = parse_show_location(self.show_data_json['response']['data'][0]['location'])
+        self.assertEqual(city, 'Hampton')
+        self.assertEqual(state, 'VA')
+        self.assertEqual(country, 'USA') 
+
+    def test_create_single_show_stats_array(self):
+        """Test create single show vector."""        
+        show_stats_array, column_labels = create_single_show_stats_array(self.show_data_json)
+        self.assertEqual(str(type(show_stats_array)), "<class 'list'>" )
+        self.assertEqual(show_stats_array, ['2018-10-21', 4.139, 19, 9, 8, 0, 1, 1])
+        self.assertEqual(
+            column_labels, 
+            [
+                'show_date',
+                'rating',
+                'total_song_count',
+                'set1_song_count',
+                'set2_song_count',
+                'set3_song_count',
+                'encore_song_count',
+                "encore2_song_count",           
             ]
         )                 
 
@@ -170,12 +220,13 @@ class TestSetlistCalculations(unittest.TestCase):
         show_dates = ['1997-12-07', '1997-11-17']
         df_phish_stats = create_df_phish_stats(API_KEY, show_dates)        
         self.assertEqual(str(type(df_phish_stats)),"<class 'pandas.core.frame.DataFrame'>")
-        self.assertEqual(df_phish_stats.shape, (2, 7))
+        self.assertEqual(df_phish_stats.shape, (2, 8))
         self.assertEqual(
             set(df_phish_stats.columns), 
             {
                 'set1_song_count', 
                 'encore_song_count',
+                'encore2_song_count',
                 'set2_song_count',
                 'total_song_count',
                 'set3_song_count',
