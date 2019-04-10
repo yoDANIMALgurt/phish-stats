@@ -1,10 +1,11 @@
 """Test for generating phish-stats"""
-
+import os
 import unittest
 
-from app.config import API_KEY
 from app.stats import *
 from app.utils import *
+
+API_KEY = os.environ['PHISHNET_API_KEY']
 
 class TestPhishStats(unittest.TestCase):
     """Test class for phish stats."""
