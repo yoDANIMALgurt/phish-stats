@@ -1,6 +1,6 @@
 # phish-stats
 
-Python package for creating phish stats using data from the phish.net API.
+Python package for generating statistics about the band Phish from Vermont.
 
 ## Getting Started
 
@@ -9,6 +9,7 @@ These instructions will get you set up for development and testing.
 ### Prerequisites
 
 [Python 3.7](https://www.python.org/downloads/release/python-370/)
+API Key from [Phish.net](http://api.phish.net/keys/)
 
 ### Installing
 
@@ -27,6 +28,7 @@ source venv/bin/activate
 ```
 
 Install Python3.7 dependencies
+
 ```
 pip install -r requirements.txt
 ```
@@ -34,6 +36,7 @@ pip install -r requirements.txt
 ## Running the tests
 
 Run the unit tests
+
 ```
 python -m unittest discover tests
 ```
