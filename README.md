@@ -8,8 +8,8 @@ These instructions will get you set up for development and testing.
 
 ### Prerequisites
 
-[Python 3.7](https://www.python.org/downloads/release/python-370/)
-API Key from [Phish.net](http://api.phish.net/keys/)
+- [Python 3.7](https://www.python.org/downloads/release/python-370/)
+- API Key from [Phish.net](http://api.phish.net/keys/)
 
 ### Installing
 
