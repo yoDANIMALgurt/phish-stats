@@ -11,22 +11,13 @@ These instructions will get you set up for development and testing.
 ### Prerequisites
 
 - [Python 3.7](https://www.python.org/downloads/release/python-370/)
-<<<<<<< HEAD
 - [API key from Phish.net](http://api.phish.net/keys/)
 
 ### Installing
 
 Set environment variable PHISHNET_API_KEY as your API key value from Phish.net
-=======
-- API key from [Phish.net](http://api.phish.net/keys/)
-
-### Installing
-
-Obtain API key from [Phish.net](http://api.phish.net/keys/) and create environment variable PHISHNET_API_KEY
->>>>>>> origin/master
 
 Clone this repository and change to project root directory
-
 ```
 git clone https://github.com/abcmer/phish-stats.git
 cd phish-stats
