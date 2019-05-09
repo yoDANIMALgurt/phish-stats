@@ -9,6 +9,30 @@ import requests
 from phish_stats import utils
 
 
+class ShowCollection(object):
+    """Show collection class"""
+
+    def __init__(self, api_key, **kwargs):
+        self.query_data = {}
+        self.shows = []
+        self.query_shows(api_key, **kwargs)
+        self.create_show_objects(api_key)
+
+    def query_shows(self, api_key, **kwargs):
+        """Query shows"""
+        query_string = utils.generate_query_string(kwargs)
+        url = f"https://api.phish.net/v3/shows/query?apikey={api_key}&{query_string}&order=ASC"
+        response = requests.get(url=url, timeout=15)
+        assert response.status_code == 200
+        self.query_data = response.json()['response']['data']
+
+    def create_show_objects(self, api_key):
+        """Creates a show object for each show."""
+        for show in self.query_data:
+            if show["artistid"] == 1:
+                self.shows.append(Show(show["showdate"], api_key))
+
+
 class Show(object):
     """Show class"""
 
@@ -18,12 +42,13 @@ class Show(object):
         self.setlist = []
         self.song_counts = {}
         self.location = {}
-        self.rating = ''
-        self.relative_date = ''
-        self.venue = ''
+        self.rating = None
+        self.relative_date = None
+        self.venue = None
         # Set all the show attributes
         self.get_single_show_data(api_key)
-        self.set_attributes()
+        if self.data['response']['data']:
+            self.set_attributes()
 
     def set_attributes(self):
         self.parse_setlist()
@@ -150,29 +175,3 @@ class Show(object):
         country = show_location.split(",")[2].strip()
 
         return city, state, country
-
-
-def query_shows(api_key, **kwargs):
-    """Query shows"""
-    query_str = utils.generate_query_string(**kwargs)
-    url = (
-        "https://api.phish.net/v3/shows/query?"
-        "apikey={api_key}&{query_str}&order=ASC".format(
-            api_key=api_key, query_str=query_str
-        )
-    )
-
-    response = requests.get(url=url, timeout=15)
-
-    return response
-
-
-def parse_show_dates(show_query_response, artists=[1]):
-    """Returns list of show dates from show query response."""
-    show_data = show_query_response.json()["response"]["data"]
-
-    show_dates = []
-    for show in show_data:
-        if show["artistid"] in artists:
-            show_dates.append(show["showdate"])
-    return show_dates
