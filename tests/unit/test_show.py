@@ -92,47 +92,9 @@ class TestCurveball(unittest.TestCase):
         """Test get relative date."""
         self.assertEqual(self.show.date['relative'], None)
 
-
-def test_location(self):
-    """Can get location of show."""
-    self.assertEqual(self.show.location, {})
-
-
-class TestShowCollection(unittest.TestCase):
-    """Test class for show collection."""
-
-    @classmethod
-    def setUpClass(cls):
-        """Setup function."""
-        kwargs = {
-            'year': 1998,
-            'month': 4
-        }
-        cls.collection = ShowCollection(API_KEY, **kwargs)
-
-    def test_number_of_shows(self):
-        """Test accurate number of shows"""
-        self.assertEqual(len(self.collection.shows), 4)
-
-    def test_avg_rating(self):
-        """Test average rating by month."""
-        avg_rating = self.collection.calculate_avg_rating()
-        self.assertTrue(isinstance(avg_rating, float))
-
-
-class TestUtils(unittest.TestCase):
-    """Test class for phish stats."""
-
-    def test_generate_query_string(self):
-        """Can generate query string."""
-
-        query_params = {
-            'year': '2009',
-            'month': '06'
-        }
-        query_string = generate_query_string(query_params)
-        self.assertIn(query_string, ['year=2009&month=06',
-                                     'month=06&year=2009'])
+    def test_location(self):
+        """Can get location of show."""
+        self.assertEqual(self.show.location, {})
 
 
 if __name__ == '__main__':

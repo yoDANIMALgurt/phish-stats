@@ -15,8 +15,6 @@ These instructions will get you set up for development and testing.
 
 ### Installing
 
-Set environment variable PHISHNET_API_KEY as your API key value from Phish.net
-
 Clone this repository and change to project root directory
 
 ```
@@ -43,7 +41,7 @@ Run the unit tests
 
 ```
 export PHISHNET_API_KEY=<API_KEY>
-python -m unittest discover tests
+python -m pytest
 ```
 
 ## License
