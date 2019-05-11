@@ -2,7 +2,7 @@
 import os
 import unittest
 
-from phish_stats import *
+from phish_stats import Show
 from phish_stats.utils import *
 
 API_KEY = os.environ['PHISHNET_API_KEY']
@@ -94,7 +94,8 @@ class TestCurveball(unittest.TestCase):
 
     def test_location(self):
         """Can get location of show."""
-        self.assertEqual(self.show.location, {})
+        self.assertEqual(self.show.location, {
+                         'country': None, 'state': None, 'city': None})
 
 
 if __name__ == '__main__':

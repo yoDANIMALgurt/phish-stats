@@ -2,8 +2,7 @@
 import os
 import unittest
 
-from phish_stats import *
-from phish_stats.utils import *
+from phish_stats import utils
 
 API_KEY = os.environ['PHISHNET_API_KEY']
 
@@ -18,7 +17,7 @@ class TestUtils(unittest.TestCase):
             'year': '2009',
             'month': '06'
         }
-        query_string = generate_query_string(query_params)
+        query_string = utils.generate_query_string(query_params)
         self.assertIn(query_string, ['year=2009&month=06',
                                      'month=06&year=2009'])
 

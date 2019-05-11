@@ -2,13 +2,13 @@
 import os
 import unittest
 
-from phish_stats import *
+from phish_stats import Collection
 from phish_stats.utils import *
 
 API_KEY = os.environ['PHISHNET_API_KEY']
 
 
-class TestShowCollection(unittest.TestCase):
+class TestCollection(unittest.TestCase):
     """Test class for show collection."""
 
     @classmethod
@@ -18,7 +18,7 @@ class TestShowCollection(unittest.TestCase):
             'year': 1998,
             'month': 4
         }
-        cls.collection = ShowCollection(API_KEY, **kwargs)
+        cls.collection = Collection(API_KEY, **kwargs)
 
     def test_number_of_shows(self):
         """Test accurate number of shows"""
