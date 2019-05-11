@@ -3,6 +3,7 @@
 from multiprocessing import Pool
 
 from bs4 import BeautifulSoup
+import numpy as np
 import pandas as pd
 import requests
 
@@ -32,23 +33,37 @@ class ShowCollection(object):
             if show["artistid"] == 1:
                 self.shows.append(Show(show["showdate"], api_key))
 
+    def calculate_avg_rating(self):
+        """Returns the average rating of the collection of shows"""
+        ratings = np.array([show.rating for show in self.shows])
+        return np.mean(ratings)
+
 
 class Show(object):
     """Show class"""
 
     def __init__(self, date, api_key):
-        self.date = date
+        self.date = {
+            'short': date,
+            'year': int(date.split('-')[0]),
+            'month': int(date.split('-')[1]),
+            'day': int(date.split('-')[2]),
+            'relative': None,
+        }
         self.data = {}
         self.setlist = []
         self.song_counts = {}
         self.location = {}
         self.rating = None
-        self.relative_date = None
         self.venue = None
         # Set all the show attributes
         self.get_single_show_data(api_key)
         if self.data['response']['data']:
             self.set_attributes()
+
+    def __repr__(self):
+        """Representation of a show."""
+        return self.date['short']
 
     def set_attributes(self):
         self.parse_setlist()
@@ -68,7 +83,7 @@ class Show(object):
         url = (
             "https://api.phish.net/v3/setlists/get?"
             "apikey={api_key}&showdate={date}".format(
-                api_key=api_key, date=self.date
+                api_key=api_key, date=self.date['short']
             )
         )
 
@@ -154,7 +169,7 @@ class Show(object):
 
     def set_relative_date(self):
         """Parse relative show date."""
-        self.relative_date = self.data["response"]["data"][0]["relative_date"]
+        self.date['relative'] = self.data["response"]["data"][0]["relative_date"]
 
     def set_venue(self):
         """Parse venue and venueid."""

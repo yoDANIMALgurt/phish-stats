@@ -55,8 +55,8 @@ class TestShow(unittest.TestCase):
 
     def test_relative_date(self):
         """Test get relative date."""
-        self.assertTrue(isinstance(self.show.relative_date, str))
-        self.assertTrue(self.show.relative_date.endswith('ago'))
+        self.assertTrue(isinstance(self.show.date['relative'], str))
+        self.assertTrue(self.show.date['relative'].endswith('ago'))
 
     def test_location(self):
         """Can get location of show."""
@@ -90,11 +90,12 @@ class TestCurveball(unittest.TestCase):
 
     def test_relative_date(self):
         """Test get relative date."""
-        self.assertEqual(self.show.relative_date, None)
+        self.assertEqual(self.show.date['relative'], None)
 
-    def test_location(self):
-        """Can get location of show."""
-        self.assertEqual(self.show.location, {})
+
+def test_location(self):
+    """Can get location of show."""
+    self.assertEqual(self.show.location, {})
 
 
 class TestShowCollection(unittest.TestCase):
@@ -104,14 +105,19 @@ class TestShowCollection(unittest.TestCase):
     def setUpClass(cls):
         """Setup function."""
         kwargs = {
-            'year': '2018',
-            'month': '12'
+            'year': 1998,
+            'month': 4
         }
         cls.collection = ShowCollection(API_KEY, **kwargs)
 
     def test_number_of_shows(self):
         """Test accurate number of shows"""
         self.assertEqual(len(self.collection.shows), 4)
+
+    def test_avg_rating(self):
+        """Test average rating by month."""
+        avg_rating = self.collection.calculate_avg_rating()
+        self.assertTrue(isinstance(avg_rating, float))
 
 
 class TestUtils(unittest.TestCase):
