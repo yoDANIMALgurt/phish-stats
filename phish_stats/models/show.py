@@ -49,10 +49,12 @@ class Show():
 
     def get_single_show_data(self, api_key):
         """Get stats of a show by date"""
+        short_date = self.date['short']
         url = ("https://api.phish.net/v3/setlists/get?"
                "apikey={api_key}&showdate={date}".format(
-                   api_key=api_key, date=self.date['short']))
+                   api_key=api_key, date=short_date))
 
+        print(f'getting setlist for {short_date}')
         response = requests.get(url=url, timeout=15)
 
         assert response.status_code == 200

@@ -30,5 +30,14 @@ class TestCollection(unittest.TestCase):
         self.assertTrue(isinstance(avg_rating, float))
 
 
+class TestAllTime(unittest.TestCase):
+    """Test class for all time shows."""
+
+    @unittest.skip('all time test takes too much time to run')
+    def test_get_all_shows(self):
+        """Test create all time collection"""
+        collection = Collection(API_KEY)
+
+
 if __name__ == '__main__':
     unittest.main()
