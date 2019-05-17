@@ -64,6 +64,13 @@ class TestShow(unittest.TestCase):
         self.assertEqual(self.show.location['state'], 'VA')
         self.assertEqual(self.show.location['city'], 'Hampton')
 
+    def test_songs_played(self):
+        """Can get booleans of song played."""
+        self.assertEqual(self.show.song_booleans, {
+                         'you-enjoy-myself': 1,
+                         'tweezer': 0
+                         })
+
 
 class TestCurveball(unittest.TestCase):
     """Test case for a cancelled show :("""

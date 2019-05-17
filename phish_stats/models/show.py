@@ -24,6 +24,10 @@ class Show():
         }
         self.rating = None
         self.venue = None
+        self.song_booleans = {
+            'you-enjoy-myself': 0,
+            'tweezer': 0,
+        }
         # Set all the show attributes
         self.get_single_show_data(api_key)
         if self.data['response']['data']:
@@ -46,6 +50,7 @@ class Show():
         self.set_relative_date()
         self.set_venue()
         self.set_show_location()
+        self.set_song_booleans()
 
     def get_single_show_data(self, api_key):
         """Get stats of a show by date"""
@@ -151,3 +156,9 @@ class Show():
         self.location['country'] = show_location.split(",")[2].strip()
         self.location['state'] = show_location.split(",")[1].strip()
         self.location['city'] = show_location.split(",")[0].strip()
+
+    def set_song_booleans(self):
+        """Sets song booleans to 1 if hit songs were played."""
+        setlist_song_ids = [song['song_id'] for song in self.setlist]
+        for song_id in self.song_booleans:
+            self.song_booleans[song_id] = 1 if song_id in setlist_song_ids else 0
