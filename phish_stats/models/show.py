@@ -7,21 +7,17 @@ class Show():
     """Show class"""
 
     def __init__(self, date, api_key):
-        self.date = {
-            'short': date,
-            'year': int(date.split('-')[0]),
-            'month': int(date.split('-')[1]),
-            'day': int(date.split('-')[2]),
-            'relative': None,
-        }
+        self.date = date
+        self.year = int(date.split('-')[0])
+        self.month = int(date.split('-')[1])
+        self.day = int(date.split('-')[2])
+        self.relative_date = None
         self.data = {}
         self.setlist = []
         self.song_counts = {}
-        self.location = {
-            'country': None,
-            'state': None,
-            'city': None
-        }
+        self.country = None
+        self.state = None
+        self.city = None
         self.rating = None
         self.venue = None
         self.song_booleans = {
@@ -35,7 +31,7 @@ class Show():
 
     def __repr__(self):
         """Representation of a show."""
-        return self.date['short']
+        return self.date
 
     def set_attributes(self):
         """Set attributes of Show"""
@@ -54,12 +50,11 @@ class Show():
 
     def get_single_show_data(self, api_key):
         """Get stats of a show by date"""
-        short_date = self.date['short']
         url = ("https://api.phish.net/v3/setlists/get?"
                "apikey={api_key}&showdate={date}".format(
-                   api_key=api_key, date=short_date))
+                   api_key=api_key, date=self.date))
 
-        print(f'getting setlist for {short_date}')
+        print(f'getting setlist for {self.date}')
         response = requests.get(url=url, timeout=15)
 
         assert response.status_code == 200
@@ -143,7 +138,7 @@ class Show():
 
     def set_relative_date(self):
         """Parse relative show date."""
-        self.date['relative'] = self.data["response"]["data"][0][
+        self.relative_date = self.data["response"]["data"][0][
             "relative_date"]
 
     def set_venue(self):
@@ -153,9 +148,9 @@ class Show():
     def set_show_location(self):
         """Set show location."""
         show_location = self.data['response']['data'][0]['location']
-        self.location['country'] = show_location.split(",")[2].strip()
-        self.location['state'] = show_location.split(",")[1].strip()
-        self.location['city'] = show_location.split(",")[0].strip()
+        self.country = show_location.split(",")[2].strip()
+        self.state = show_location.split(",")[1].strip()
+        self.city = show_location.split(",")[0].strip()
 
     def set_song_booleans(self):
         """Sets song booleans to 1 if hit songs were played."""

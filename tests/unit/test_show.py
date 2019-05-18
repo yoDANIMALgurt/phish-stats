@@ -55,14 +55,21 @@ class TestShow(unittest.TestCase):
 
     def test_relative_date(self):
         """Test get relative date."""
-        self.assertTrue(isinstance(self.show.date['relative'], str))
-        self.assertTrue(self.show.date['relative'].endswith('ago'))
+        self.assertTrue(isinstance(self.show.relative_date, str))
+        self.assertTrue(self.show.relative_date.endswith('ago'))
 
     def test_location(self):
         """Can get location of show."""
-        self.assertEqual(self.show.location['country'], 'USA')
-        self.assertEqual(self.show.location['state'], 'VA')
-        self.assertEqual(self.show.location['city'], 'Hampton')
+        self.assertEqual(self.show.country, 'USA')
+        self.assertEqual(self.show.state, 'VA')
+        self.assertEqual(self.show.city, 'Hampton')
+
+    def test_songs_played(self):
+        """Can get booleans of song played."""
+        self.assertEqual(self.show.song_booleans, {
+                         'you-enjoy-myself': 1,
+                         'tweezer': 0
+                         })
 
     def test_songs_played(self):
         """Can get booleans of song played."""
@@ -97,12 +104,13 @@ class TestCurveball(unittest.TestCase):
 
     def test_relative_date(self):
         """Test get relative date."""
-        self.assertEqual(self.show.date['relative'], None)
+        self.assertEqual(self.show.relative_date, None)
 
     def test_location(self):
         """Can get location of show."""
-        self.assertEqual(self.show.location, {
-                         'country': None, 'state': None, 'city': None})
+        self.assertEqual(self.show.country, None)
+        self.assertEqual(self.show.state, None)
+        self.assertEqual(self.show.country, None)
 
 
 if __name__ == '__main__':
