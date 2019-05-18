@@ -3,7 +3,6 @@ import os
 import unittest
 
 from phish_stats import Show
-from phish_stats.utils import *
 
 API_KEY = os.environ['PHISHNET_API_KEY']
 
@@ -15,30 +14,6 @@ class TestShow(unittest.TestCase):
     def setUpClass(cls):
         """Setup function."""
         cls.show = Show('2018-10-21', API_KEY)
-
-    def test_api_response_data(self):
-        """Test expected keys are returned from api call."""
-
-        self.assertEqual(
-            set(self.show.data['response']['data'][0].keys()),
-            {
-                'relative_date',
-                'showid',
-                'url',
-                'venueid',
-                'long_date',
-                'venue',
-                'setlistdata',
-                'showdate',
-                'artistid',
-                'rating',
-                'setlistnotes',
-                'artist',
-                'short_date',
-                'location',
-                'gapchart'
-            }
-        )
 
     def test_setlist(self):
         """Test get setlist of specific date."""

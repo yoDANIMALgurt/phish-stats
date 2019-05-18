@@ -1,6 +1,7 @@
 """Phish Stats"""
 from bs4 import BeautifulSoup
-import requests
+
+from phish_stats.phishnet_api import get_single_show_data
 
 
 class Show():
@@ -25,7 +26,7 @@ class Show():
             'tweezer': 0,
         }
         # Set all the show attributes
-        self.get_single_show_data(api_key)
+        self.data = get_single_show_data(self.date, api_key)
         if self.data['response']['data']:
             self.set_attributes()
 
@@ -47,19 +48,6 @@ class Show():
         self.set_venue()
         self.set_show_location()
         self.set_song_booleans()
-
-    def get_single_show_data(self, api_key):
-        """Get stats of a show by date"""
-        url = ("https://api.phish.net/v3/setlists/get?"
-               "apikey={api_key}&showdate={date}".format(
-                   api_key=api_key, date=self.date))
-
-        print(f'getting setlist for {self.date}')
-        response = requests.get(url=url, timeout=15)
-
-        assert response.status_code == 200
-
-        self.data = response.json()
 
     def parse_setlist(self):
         """Parses setlist from raw setlist data"""

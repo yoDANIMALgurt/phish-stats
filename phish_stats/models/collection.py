@@ -2,10 +2,11 @@
 import datetime
 
 import numpy as np
-import requests
+# import requests
 
 from phish_stats import utils
 from phish_stats.models import Show
+from phish_stats import phishnet_api as api
 
 
 class Collection():
@@ -20,30 +21,9 @@ class Collection():
     def get_show_dates(self, api_key, **kwargs):
         """Gets show dates based on params or fetch all shows."""
         if kwargs:
-            self.query_shows_with_params(api_key, **kwargs)
+            self.dates = api.query_shows_with_params(api_key, **kwargs)
         else:
-            self.query_all_show_dates(api_key)
-
-    def query_shows_with_params(self, api_key, **kwargs):
-        """Query shows"""
-        query_string = utils.generate_query_string(kwargs)
-        url = f"https://api.phish.net/v3/shows/query?apikey={api_key}&{query_string}&order=ASC"
-        response = requests.get(url=url, timeout=15)
-
-        self.dates = [show['showdate'] for show in response.json()
-                      ['response']['data'] if show['artistid'] == 1]
-
-    def query_all_show_dates(self, api_key):
-        """Query for all show dates."""
-        min_year = 1983
-        max_year = datetime.datetime.now().year
-        for year in range(min_year, max_year+1):
-            query_string = utils.generate_query_string({'year': year})
-            url = f"https://api.phish.net/v3/shows/query?apikey={api_key}&{query_string}&order=ASC"
-            response = requests.get(url=url, timeout=15)
-            assert response.status_code == 200
-            self.dates += [show['showdate'] for show in response.json()
-                           ['response']['data'] if show['artistid'] == 1]
+            self.dates = api.query_all_show_dates(api_key)
 
     def create_show_objects(self, api_key):
         """Creates a show object for each show."""
