@@ -33,6 +33,11 @@ class Collection():
         for date in self.dates:
             self.shows.append(Show(date))
 
+    def create_shows(self):
+        """Create show instances."""
+        for date in self.dates:
+            self.shows.append(Show(date))
+
     def calculate_shows_by_year(self):
         """Returns year to show count dictionary."""
         shows_by_year = Counter()

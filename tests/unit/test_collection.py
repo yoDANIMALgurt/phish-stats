@@ -1,4 +1,5 @@
 """Test for generating phish-stats"""
+import json
 import os
 import unittest
 
@@ -37,8 +38,18 @@ class TestAllTime(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Setup function."""
-        cls.collection = Collection()
-        cls.collection.add_shows(API_KEY)
+
+        with open('./tests/data/all-shows-raw.json', 'r') as json_file:
+            all_shows_raw_data = json.load(json_file)
+
+        dates = [date for date in all_shows_raw_data.keys()]
+        cls.collection = Collection(dates=dates)
+        cls.collection.create_shows()
+
+        for show in cls.collection.shows:
+            show.data = all_shows_raw_data[show.date]
+
+        cls.collection.set_show_attributes(API_KEY)
 
     def test_shows_by_year(self):
         """Test calculate shows per year."""
@@ -47,7 +58,7 @@ class TestAllTime(unittest.TestCase):
         self.assertEqual(shows_by_year[0:36], [
             (1983, 3),
             (1984, 3),
-            (1985, 30),
+            (1985, 26),
             (1986, 22),
             (1987, 47),
             (1988, 96),
@@ -55,14 +66,14 @@ class TestAllTime(unittest.TestCase):
             (1990, 150),
             (1991, 133),
             (1992, 124),
-            (1993, 114),
-            (1994, 128),
+            (1993, 113),
+            (1994, 124),
             (1995, 83),
             (1996, 74),
-            (1997, 84),
+            (1997, 83),
             (1998, 75),
-            (1999, 69),
-            (2000, 58),
+            (1999, 68),
+            (2000, 56),
             (2001, 1),
             (2002, 3),
             (2003, 47),
@@ -76,7 +87,7 @@ class TestAllTime(unittest.TestCase):
             (2011, 41),
             (2012, 37),
             (2013, 42),
-            (2014, 42),
+            (2014, 41),
             (2015, 31),
             (2016, 48),
             (2017, 29),
