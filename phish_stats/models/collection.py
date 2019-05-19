@@ -1,4 +1,5 @@
 """Collection model representing a collection of shows"""
+from collections import Counter
 import datetime
 
 import numpy as np
@@ -12,23 +13,32 @@ from phish_stats import phishnet_api as api
 class Collection():
     """Show collection class"""
 
-    def __init__(self, api_key, **kwargs):
-        self.dates = []
-        self.shows = []
-        self.get_show_dates(api_key, **kwargs)
-        self.create_show_objects(api_key)
+    def __init__(self, dates=[], shows=[]):
+        self.dates = dates
+        self.shows = shows
 
-    def get_show_dates(self, api_key, **kwargs):
-        """Gets show dates based on params or fetch all shows."""
+    def set_show_attributes(self, api_key):
+        """Calls get_set_phishnet_data() for each show in the collection."""
+        for show in self.shows:
+            show.get_set_phishnet_data(api_key)
+
+    def add_shows(self, api_key, **kwargs):
+        """Adds shows to collection."""
         if kwargs:
             self.dates = api.query_shows_with_params(api_key, **kwargs)
         else:
             self.dates = api.query_all_show_dates(api_key)
 
-    def create_show_objects(self, api_key):
-        """Creates a show object for each show."""
         for date in self.dates:
-            self.shows.append(Show(date, api_key))
+            self.shows.append(Show(date))
+
+    def calculate_shows_per_year(self):
+        """Returns year to show count dictionary."""
+        shows_per_year = Counter()
+        for year in [show.year for show in self.shows]:
+            shows_per_year[year] += 1
+
+        return sorted(shows_per_year.items())
 
     def calculate_avg_rating(self):
         """Returns the average rating of the collection of shows"""

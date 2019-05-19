@@ -5,7 +5,7 @@ import requests
 from phish_stats import utils
 
 
-def get_single_show_data(date, api_key):
+def get_show_data(date, api_key):
     """Get stats of a show by date"""
     url = ("https://api.phish.net/v3/setlists/get?"
            f"apikey={api_key}&showdate={date}")

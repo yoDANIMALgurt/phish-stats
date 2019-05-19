@@ -10,10 +10,10 @@ API_KEY = os.environ['PHISHNET_API_KEY']
 class TestPhishNetApi(unittest.TestCase):
     """Test class phish.net api calls"""
 
-    def test_get_single_show_data(self):
+    def test_get_show_data(self):
         """Test get single show data"""
         date = '1995-12-31'
-        data = api.get_single_show_data(date, API_KEY)
+        data = api.get_show_data(date, API_KEY)
 
         self.assertEqual(
             set(data['response']['data'][0].keys()),

@@ -1,13 +1,13 @@
 """Phish Stats"""
 from bs4 import BeautifulSoup
 
-from phish_stats.phishnet_api import get_single_show_data
+from phish_stats.phishnet_api import get_show_data
 
 
 class Show():
     """Show class"""
 
-    def __init__(self, date, api_key):
+    def __init__(self, date):
         self.date = date
         self.year = int(date.split('-')[0])
         self.month = int(date.split('-')[1])
@@ -25,29 +25,29 @@ class Show():
             'you-enjoy-myself': 0,
             'tweezer': 0,
         }
-        # Set all the show attributes
-        self.data = get_single_show_data(self.date, api_key)
-        if self.data['response']['data']:
-            self.set_attributes()
 
     def __repr__(self):
         """Representation of a show."""
         return self.date
 
-    def set_attributes(self):
+    def get_set_phishnet_data(self, api_key):
         """Set attributes of Show"""
-        self.parse_setlist()
-        self.set_total_song_count()
-        self.set_set1_song_count()
-        self.set_set2_song_count()
-        self.set_set3_song_count()
-        self.set_encore_song_count()
-        self.set_encore2_song_count()
-        self.set_show_rating()
-        self.set_relative_date()
-        self.set_venue()
-        self.set_show_location()
-        self.set_song_booleans()
+        self.data = get_show_data(self.date, api_key)
+        if self.data['response']['data']:
+            self.parse_setlist()
+            self.set_total_song_count()
+            self.set_set1_song_count()
+            self.set_set2_song_count()
+            self.set_set3_song_count()
+            self.set_encore_song_count()
+            self.set_encore2_song_count()
+            self.set_show_rating()
+            self.set_relative_date()
+            self.set_venue()
+            self.set_show_location()
+            self.set_song_booleans()
+        else:
+            print('No show data found via phish.net api.')
 
     def parse_setlist(self):
         """Parses setlist from raw setlist data"""

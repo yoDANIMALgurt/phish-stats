@@ -13,7 +13,8 @@ class TestShow(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Setup function."""
-        cls.show = Show('2018-10-21', API_KEY)
+        cls.show = Show('2018-10-21')
+        cls.show.get_set_phishnet_data(API_KEY)
 
     def test_setlist(self):
         """Test get setlist of specific date."""
@@ -60,7 +61,8 @@ class TestCurveball(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Setup function."""
-        cls.show = Show('2018-08-17', API_KEY)
+        cls.show = Show('2018-08-17')
+        cls.show.get_set_phishnet_data(API_KEY)
 
     def test_api_response_data(self):
         """Test expected keys are returned from api call."""
