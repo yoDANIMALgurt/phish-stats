@@ -7,13 +7,13 @@ from phish_stats.phishnet_api import get_show_data
 class Show():
     """Show class"""
 
-    def __init__(self, date):
+    def __init__(self, date, data={}):
         self.date = date
         self.year = int(date.split('-')[0])
         self.month = int(date.split('-')[1])
         self.day = int(date.split('-')[2])
         self.relative_date = None
-        self.data = {}
+        self.data = data
         self.setlist = []
         self.song_counts = {}
         self.country = None
@@ -25,15 +25,22 @@ class Show():
             'you-enjoy-myself': 0,
             'tweezer': 0,
         }
+        if data:
+            self.set_attributes()
 
     def __repr__(self):
         """Representation of a show."""
         return self.date
 
-    def get_set_phishnet_data(self, api_key):
+    def fetch_phishnet_data(self, api_key):
+        """Gets and sets phish.net api data for show."""
+        if not self.data:
+            self.data = get_show_data(self.date, api_key)
+
+    def set_attributes(self):
         """Set attributes of Show"""
-        self.data = get_show_data(self.date, api_key)
-        if self.data['response']['data']:
+        if self.data.get('response', {}).get('data'):
+            # Set attributes based on data
             self.parse_setlist()
             self.set_total_song_count()
             self.set_set1_song_count()
@@ -46,8 +53,6 @@ class Show():
             self.set_venue()
             self.set_show_location()
             self.set_song_booleans()
-        else:
-            print('No show data found via phish.net api.')
 
     def parse_setlist(self):
         """Parses setlist from raw setlist data"""

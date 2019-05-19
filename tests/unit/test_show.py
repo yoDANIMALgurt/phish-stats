@@ -1,4 +1,5 @@
 """Test for generating phish-stats"""
+import json
 import os
 import unittest
 
@@ -13,8 +14,9 @@ class TestShow(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Setup function."""
-        cls.show = Show('2018-10-21')
-        cls.show.get_set_phishnet_data(API_KEY)
+        with open('./tests/data/2018-10-21.json') as json_file:
+            data = json.load(json_file)
+        cls.show = Show('2018-10-21', data=data)
 
     def test_setlist(self):
         """Test get setlist of specific date."""
@@ -54,8 +56,9 @@ class TestCurveball(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Setup function."""
-        cls.show = Show('2018-08-17')
-        cls.show.get_set_phishnet_data(API_KEY)
+        with open('./tests/data/2018-08-17.json') as json_file:
+            data = json.load(json_file)
+        cls.show = Show('2018-08-17', data=data)
 
     def test_api_response_data(self):
         """Test expected keys are returned from api call."""

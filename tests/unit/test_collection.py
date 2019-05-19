@@ -85,7 +85,7 @@ class TestAllTime(unittest.TestCase):
 
     def test_visualize_shows_by_year(self):
         """Test vizualize shows per year."""
-        self.collection.visualize_shows_by_year()
+        self.collection.visualize_shows_by_year(show_in_browser=False)
 
 
 if __name__ == '__main__':

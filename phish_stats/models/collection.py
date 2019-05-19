@@ -18,9 +18,10 @@ class Collection():
         self.shows = shows
 
     def set_show_attributes(self, api_key):
-        """Calls get_set_phishnet_data() for each show in the collection."""
+        """Calls set_attributes() for each show in the collection."""
         for show in self.shows:
-            show.get_set_phishnet_data(api_key)
+            show.fetch_phishnet_data(api_key)
+            show.set_attributes()
 
     def add_shows(self, api_key, **kwargs):
         """Adds shows to collection."""
@@ -48,7 +49,7 @@ class Collection():
 
         return sorted(shows_by_year.items())
 
-    def visualize_shows_by_year(self):
+    def visualize_shows_by_year(self, show_in_browser=True):
         """Visualizes shows per year."""
         shows_by_year = self.calculate_shows_by_year()
         # prepare some data
@@ -66,7 +67,8 @@ class Collection():
         p.line(x, y, legend="Show By Year", line_width=2)
 
         # show the results
-        show(p)
+        if show_in_browser:
+            show(p)
 
     def calculate_avg_rating(self):
         """Returns the average rating of the collection of shows"""
