@@ -2,8 +2,8 @@
 from collections import Counter
 import datetime
 
+from bokeh.plotting import figure, output_file, show
 import numpy as np
-# import requests
 
 from phish_stats import utils
 from phish_stats.models import Show
@@ -32,13 +32,41 @@ class Collection():
         for date in self.dates:
             self.shows.append(Show(date))
 
-    def calculate_shows_per_year(self):
+    def calculate_shows_by_year(self):
         """Returns year to show count dictionary."""
-        shows_per_year = Counter()
-        for year in [show.year for show in self.shows]:
-            shows_per_year[year] += 1
+        shows_by_year = Counter()
+        min_year = 1983
+        max_year = datetime.datetime.now().year
 
-        return sorted(shows_per_year.items())
+        # Set default count to 0 for all years since 1993
+        for year in range(min_year, max_year + 1):
+            shows_by_year[year] = 0
+
+        # Increment year count for each show in collection
+        for year in [show.year for show in self.shows]:
+            shows_by_year[year] += 1
+
+        return sorted(shows_by_year.items())
+
+    def visualize_shows_by_year(self):
+        """Visualizes shows per year."""
+        shows_by_year = self.calculate_shows_by_year()
+        # prepare some data
+        x = [year for year, count in shows_by_year]
+        y = [count for year, count in shows_by_year]
+
+        # output to static HTML file
+        output_file("shows_by_year.html")
+
+        # create a new plot with a title and axis labels
+        p = figure(title="Phish Shows By Year",
+                   x_axis_label='Year', y_axis_label='Number of Shows')
+
+        # add a line renderer with legend and line thickness
+        p.line(x, y, legend="Show By Year", line_width=2)
+
+        # show the results
+        show(p)
 
     def calculate_avg_rating(self):
         """Returns the average rating of the collection of shows"""
