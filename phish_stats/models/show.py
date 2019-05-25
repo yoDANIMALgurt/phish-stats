@@ -15,7 +15,12 @@ class Show():
         self.relative_date = None
         self.data = data
         self.setlist = []
-        self.song_counts = {}
+        self.total_song_count = None
+        self.set1_song_count = None
+        self.set2_song_count = None
+        self.set3_song_count = None
+        self.encore_song_count = None
+        self.encore2_song_count = None
         self.country = None
         self.state = None
         self.city = None
@@ -98,31 +103,31 @@ class Show():
 
     def set_total_song_count(self):
         """Get total song count for the setlist."""
-        self.song_counts['total'] = len(self.setlist)
+        self.total_song_count = len(self.setlist)
 
     def set_set1_song_count(self):
         """Get set 1 song count for the setlist."""
-        self.song_counts['set1'] = len(
+        self.set1_song_count = len(
             [song for song in self.setlist if song["set_label"] == "Set 1"])
 
     def set_set2_song_count(self):
         """Get set 2 song count for the setlist."""
-        self.song_counts['set2'] = len(
+        self.set2_song_count = len(
             [song for song in self.setlist if song["set_label"] == "Set 2"])
 
     def set_set3_song_count(self):
         """Get set 3 song count for the setlist."""
-        self.song_counts['set3'] = len(
+        self.set3_song_count = len(
             [song for song in self.setlist if song["set_label"] == "Set 3"])
 
     def set_encore_song_count(self):
         """Get encore song count for the setlist."""
-        self.song_counts['encore'] = len(
+        self.encore_song_count = len(
             [song for song in self.setlist if song["set_label"] == "Encore"])
 
     def set_encore2_song_count(self):
         """Get encore 2 song count for the setlist."""
-        self.song_counts['encore2'] = len(
+        self.encore2_song_count = len(
             [song for song in self.setlist if song["set_label"] == "Encore 2"])
 
     def set_show_rating(self):

@@ -3,6 +3,7 @@ import json
 import os
 import unittest
 
+import pandas as pd
 from phish_stats import Collection
 
 API_KEY = os.environ['PHISHNET_API_KEY']
@@ -30,6 +31,11 @@ class TestCollection(unittest.TestCase):
         """Test average rating by month."""
         avg_rating = self.collection.calculate_avg_rating()
         self.assertTrue(isinstance(avg_rating, float))
+
+    def test_create_df(self):
+        """Test create pandas dataframe."""
+        collection_df = self.collection.create_collection_df()
+        self.assertIsInstance(collection_df, pd.core.frame.DataFrame)
 
 
 class TestAllTime(unittest.TestCase):

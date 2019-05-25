@@ -4,6 +4,7 @@ import datetime
 
 from bokeh.plotting import figure, output_file, show
 import numpy as np
+import pandas as pd
 
 from phish_stats import utils
 from phish_stats.models import Show
@@ -37,6 +38,17 @@ class Collection():
         """Create show instances."""
         for date in self.dates:
             self.shows.append(Show(date))
+
+    def create_collection_df(self):
+        """Create pandas df from collection of shows."""
+        data = [
+            {
+                'date': show.date,
+                'rating': show.rating,
+                'total_song_count': show.total_song_count
+            } for show in self.shows]
+
+        return pd.DataFrame.from_dict(data)
 
     def calculate_shows_by_year(self):
         """Returns year to show count dictionary."""

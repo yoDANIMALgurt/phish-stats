@@ -24,8 +24,12 @@ class TestShow(unittest.TestCase):
 
     def test_song_counts(self):
         """Test songs counts match expected."""
-        self.assertEqual(self.show.song_counts, {
-                         'total': 19, 'set1': 9, 'set2': 8, 'set3': 0, 'encore': 1, 'encore2': 1})
+        self.assertEqual(self.show.total_song_count, 19)
+        self.assertEqual(self.show.set1_song_count, 9)
+        self.assertEqual(self.show.set2_song_count, 8)
+        self.assertEqual(self.show.set3_song_count, 0)
+        self.assertEqual(self.show.encore_song_count, 1)
+        self.assertEqual(self.show.encore2_song_count, 1)
 
     def test_show_rating(self):
         """Test get show rating."""
@@ -69,7 +73,7 @@ class TestCurveball(unittest.TestCase):
 
     def test_song_counts(self):
         """Test songs counts match expected."""
-        self.assertEqual(self.show.song_counts, {})
+        self.assertEqual(self.show.total_song_count, None)
 
     def test_show_rating(self):
         """Test get show rating."""
