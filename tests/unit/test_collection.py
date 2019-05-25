@@ -15,12 +15,17 @@ class TestCollection(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Setup function."""
-        kwargs = {
-            'year': 1998,
-            'month': 4
-        }
-        cls.collection = Collection()
-        cls.collection.add_shows(API_KEY, **kwargs)
+
+        with open('./tests/data/island-tour-raw.json', 'r') as json_file:
+            island_tour_raw_data = json.load(json_file)
+
+        dates = [date for date in island_tour_raw_data.keys()]
+        cls.collection = Collection(dates=dates)
+        cls.collection.create_shows()
+
+        for show in cls.collection.shows:
+            show.data = island_tour_raw_data[show.date]
+
         cls.collection.set_show_attributes(API_KEY)
 
     def test_number_of_shows(self):
