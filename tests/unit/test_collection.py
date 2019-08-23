@@ -107,8 +107,13 @@ class TestAllTime(unittest.TestCase):
 
     def test_visualize_shows_by_year(self):
         """Test vizualize shows per year."""
-        self.collection.visualize_shows_by_year(show_in_browser=False)
+        filepath = "tests/output/shows_by_year.html"
+        self.collection.visualize_shows_by_year(filepath, show_in_browser=False)
 
+    def test_write_to_csv(self):
+        """Test write collection data to csv file."""
+        filepath = 'tests/data/alltime.csv'
+        self.collection.write_to_csv(filepath)
 
 if __name__ == '__main__':
     unittest.main()

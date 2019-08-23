@@ -66,7 +66,7 @@ class Collection():
 
         return sorted(shows_by_year.items())
 
-    def visualize_shows_by_year(self, show_in_browser=True):
+    def visualize_shows_by_year(self, filepath, show_in_browser=True):
         """Visualizes shows per year."""
         shows_by_year = self.calculate_shows_by_year()
         # prepare some data
@@ -74,7 +74,7 @@ class Collection():
         y = [count for year, count in shows_by_year]
 
         # output to static HTML file
-        output_file("shows_by_year.html")
+        output_file(filepath)
 
         # create a new plot with a title and axis labels
         p = figure(title="Phish Shows By Year",
@@ -91,3 +91,7 @@ class Collection():
         """Returns the average rating of the collection of shows"""
         ratings = np.array([show.rating for show in self.shows])
         return np.mean(ratings)
+
+    def write_to_csv(self, filepath):
+        """Writes collection data to csv file."""
+        self.create_collection_df().to_csv(filepath)
