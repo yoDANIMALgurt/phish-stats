@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/abcmer/phish-stats.svg?branch=master)](https://travis-ci.org/abcmer/phish-stats)
+[![CircleCI](https://circleci.com/gh/abcmer/phish-stats.svg?style=svg)](https://circleci.com/gh/abcmer/phish-stats)
 
 # phish-stats
 
