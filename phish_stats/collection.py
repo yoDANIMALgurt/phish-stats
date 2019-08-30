@@ -111,22 +111,22 @@ class Collection():
         )
 
     def create_df_from_csv(self, filepath, columns=[
-            'date',
-            'year',
-            'month',
-            'day',
-            'relative_date',
-            'total_song_count',
-            'set1_song_count',
-            'set2_song_count',
-            'set3_song_count',
-            'encore_song_count',
-            'encore2_song_count',
-            'country',
-            'state',
-            'city',
-            'rating',
-            'venue'
+        'date',
+        'year',
+        'month',
+        'day',
+        'relative_date',
+        'total_song_count',
+        'set1_song_count',
+        'set2_song_count',
+        'set3_song_count',
+        'encore_song_count',
+        'encore2_song_count',
+        'country',
+        'state',
+        'city',
+        'rating',
+        'venue'
     ]):
         """Create pandas df from csv file."""
         df_collection = pd.read_csv(filepath)
