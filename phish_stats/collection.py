@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 
 from phish_stats import utils
-from phish_stats.models import Show
+from phish_stats import Show
 from phish_stats import phishnet_api as api
 
 
