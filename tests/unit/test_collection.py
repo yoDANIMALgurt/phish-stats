@@ -16,7 +16,7 @@ class TestCollection(unittest.TestCase):
     def setUpClass(cls):
         """Setup function."""
 
-        with open('./tests/data/island-tour-raw.json', 'r') as json_file:
+        with open('./tests/data/input/island-tour-raw.json', 'r') as json_file:
             island_tour_raw_data = json.load(json_file)
 
         dates = [date for date in island_tour_raw_data.keys()]
@@ -50,7 +50,7 @@ class TestAllTime(unittest.TestCase):
     def setUpClass(cls):
         """Setup function."""
 
-        with open('./tests/data/all-shows-raw.json', 'r') as json_file:
+        with open('./tests/data/input/all-shows-raw.json', 'r') as json_file:
             all_shows_raw_data = json.load(json_file)
 
         dates = [date for date in all_shows_raw_data.keys()]
@@ -107,13 +107,26 @@ class TestAllTime(unittest.TestCase):
 
     def test_visualize_shows_by_year(self):
         """Test vizualize shows per year."""
-        filepath = "tests/data/shows_by_year.html"
+        filepath = "tests/data/output/shows_by_year.html"
         self.collection.visualize_shows_by_year(filepath)
 
     def test_write_to_csv(self):
         """Test write collection data to csv file."""
-        filepath = 'tests/data/alltime.csv'
+        filepath = 'tests/data/output/alltime.csv'
         self.collection.write_to_csv(filepath)
+
+    def test_create_df_from_csv(self):
+        """Test read collection data from .csv file."""
+        df_collection = self.collection.create_df_from_csv('tests/data/input/alltime.csv')
+        self.assertIsInstance(df_collection, pd.DataFrame)
+
+    @unittest.skip('TODO -- update to assert Error')
+    def test_create_df_from_invalid_csv(self):
+        """Test read collection data from .csv file."""
+        # df_collection = self.collection.create_df_from_csv('tests/data/input/invalid.csv')
+        with self.assertError:
+            df_collection = self.collection.create_df_from_csv('tests/data/input/invalid.csv')
+             
 
 if __name__ == '__main__':
     unittest.main()

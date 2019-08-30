@@ -45,7 +45,8 @@ class Collection():
             {
                 'date': show.date,
                 'rating': show.rating,
-                'total_song_count': show.total_song_count
+                'total_song_count': show.total_song_count,
+                'state': show.state
             } for show in self.shows]
 
         return pd.DataFrame.from_dict(data)
@@ -92,4 +93,21 @@ class Collection():
 
     def write_to_csv(self, filepath):
         """Writes collection data to csv file."""
-        self.create_collection_df().to_csv(filepath)
+        self.create_collection_df().to_csv(
+            filepath,
+            index=False
+        )
+
+    def create_df_from_csv(self, filepath):
+        """Create pandas df from csv file."""
+        df_collection = pd.read_csv(filepath)
+        expected_columns = {
+            'state', 
+            'rating', 
+            'total_song_count', 
+            'date'
+        }
+        if set(df_collection.columns) != expected_columns:
+            raise TypeError('Not a valid phish-stats collection csv')
+
+        return df_collection       
