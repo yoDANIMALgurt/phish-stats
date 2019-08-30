@@ -117,7 +117,26 @@ class TestAllTime(unittest.TestCase):
 
     def test_create_df_from_csv(self):
         """Test read collection data from .csv file."""
-        df_collection = self.collection.create_df_from_csv('tests/data/input/alltime.csv')
+        columns = [
+            'date',
+            'year',
+            'month',
+            'day',
+            'relative_date',
+            'total_song_count',
+            'set1_song_count',
+            'set2_song_count',
+            'set3_song_count',
+            'encore_song_count',
+            'encore2_song_count',
+            'country',
+            'state',
+            'city',
+            'rating',
+            'venue'
+        ]
+        df_collection = self.collection.create_df_from_csv(
+            'tests/data/input/alltime.csv', columns)
         self.assertIsInstance(df_collection, pd.DataFrame)
 
     @unittest.skip('TODO -- update to assert Error')

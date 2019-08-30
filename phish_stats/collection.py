@@ -44,9 +44,21 @@ class Collection():
         data = [
             {
                 'date': show.date,
-                'rating': show.rating,
+                'year': show.year,
+                'month': show.month,
+                'day': show.day,
+                'relative_date': show.relative_date,
                 'total_song_count': show.total_song_count,
-                'state': show.state
+                'set1_song_count': show.set1_song_count,
+                'set2_song_count': show.set2_song_count,
+                'set3_song_count': show.set3_song_count,
+                'encore_song_count': show.encore_song_count,
+                'encore2_song_count': show.encore2_song_count,
+                'country': show.country,
+                'state': show.state,
+                'city': show.city,
+                'rating': show.rating,
+                'venue': show.venue               
             } for show in self.shows]
 
         return pd.DataFrame.from_dict(data)
@@ -98,16 +110,27 @@ class Collection():
             index=False
         )
 
-    def create_df_from_csv(self, filepath):
+    def create_df_from_csv(self, filepath, columns=[
+            'date',
+            'year',
+            'month',
+            'day',
+            'relative_date',
+            'total_song_count',
+            'set1_song_count',
+            'set2_song_count',
+            'set3_song_count',
+            'encore_song_count',
+            'encore2_song_count',
+            'country',
+            'state',
+            'city',
+            'rating',
+            'venue'
+    ]):
         """Create pandas df from csv file."""
         df_collection = pd.read_csv(filepath)
-        expected_columns = {
-            'state', 
-            'rating', 
-            'total_song_count', 
-            'date'
-        }
-        if set(df_collection.columns) != expected_columns:
+        if set(df_collection.columns) != set(columns):
             raise TypeError('Not a valid phish-stats collection csv')
 
         return df_collection       
