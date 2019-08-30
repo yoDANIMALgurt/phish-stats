@@ -66,7 +66,7 @@ class Collection():
 
         return sorted(shows_by_year.items())
 
-    def visualize_shows_by_year(self, filepath, show_in_browser=True):
+    def visualize_shows_by_year(self, filepath):
         """Visualizes shows per year."""
         shows_by_year = self.calculate_shows_by_year()
         # prepare some data
@@ -83,9 +83,7 @@ class Collection():
         # add a line renderer with legend and line thickness
         p.line(x, y, legend="Show By Year", line_width=2)
 
-        # show the results
-        if show_in_browser:
-            show(p)
+        show(p)
 
     def calculate_avg_rating(self):
         """Returns the average rating of the collection of shows"""
