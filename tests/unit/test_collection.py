@@ -133,7 +133,8 @@ class TestAllTime(unittest.TestCase):
             'state',
             'city',
             'rating',
-            'venue'
+            'venue',
+            'era'
         ]
         df_collection = self.collection.create_df_from_csv(
             'tests/data/input/alltime.csv', columns)

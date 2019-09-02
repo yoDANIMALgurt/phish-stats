@@ -2,6 +2,7 @@
 from collections import Counter
 import datetime
 
+from bokeh.core.properties import value
 from bokeh.plotting import figure, output_file, show
 import numpy as np
 import pandas as pd
@@ -58,7 +59,8 @@ class Collection():
                 'state': show.state,
                 'city': show.city,
                 'rating': show.rating,
-                'venue': show.venue               
+                'venue': show.venue,
+                'era': show.era             
             } for show in self.shows]
 
         return pd.DataFrame.from_dict(data)
@@ -107,8 +109,20 @@ class Collection():
             as_index=False
         ).count()[['state', 'city']].rename(columns={'city': 'count'})
 
-        states = group_by_state['state'].tolist()
+        states = group_by_state['state'].unique().tolist()
+        eras = ["1.0", "2.0", "3.0"]
+        colors = ["#c9d9d3", "#718dbf", "#e84d60"]
         counts = group_by_state['count'].tolist()
+
+        data = {'states' : states}
+
+        for era in eras:
+            data[era] = []
+            for state in states:
+                state_mask = df_collection['state'] == state
+                era_mask = df_collection['era'] == era
+                count = df_collection[state_mask & era_mask].shape[0]
+                data[era].append(count)
 
         # sorting the state means sorting the range factors
         sorted_states = sorted(
@@ -130,10 +144,19 @@ class Collection():
             )
 
         # add a line renderer with legend and line thickness
-        p.vbar(x=states, top=counts, legend="Shows By State", width=0.9)
+        p.vbar_stack(eras, x='states', source=data, color=colors, width=0.9, legend=[value(x) for x in eras])
 
         p.xgrid.grid_line_color = None
         p.y_range.start = 0
+
+        #
+        p.y_range.start = 0
+        p.x_range.range_padding = 0.1
+        p.xgrid.grid_line_color = None
+        p.axis.minor_tick_line_color = None
+        p.outline_line_color = None
+        p.legend.location = "top_left"
+        p.legend.orientation = "horizontal"
 
         show(p)
         
@@ -166,7 +189,8 @@ class Collection():
         'state',
         'city',
         'rating',
-        'venue'
+        'venue',
+        'era'
     ]):
         """Create pandas df from csv file."""
         df_collection = pd.read_csv(filepath)
