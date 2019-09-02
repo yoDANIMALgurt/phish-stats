@@ -79,7 +79,7 @@ class Collection():
 
         return sorted(shows_by_year.items())
 
-    def visualize_shows_by_year(self, filepath):
+    def visualize_shows_by_year(self, outfile):
         """Visualizes shows per year."""
         shows_by_year = self.calculate_shows_by_year()
         # prepare some data
@@ -87,7 +87,7 @@ class Collection():
         y = [count for year, count in shows_by_year]
 
         # output to static HTML file
-        output_file(filepath)
+        output_file(outfile)
 
         # create a new plot with a title and axis labels
         p = figure(title="Phish Shows By Year",
@@ -97,6 +97,46 @@ class Collection():
         p.line(x, y, legend="Show By Year", line_width=2)
 
         show(p)
+
+    def visualize_shows_by_state(self, outfile):
+        """Visualizes shows by state."""
+        df_collection = self.create_collection_df()
+        group_by_state = df_collection.groupby(
+            by=['state'],
+            axis=0, 
+            as_index=False
+        ).count()[['state', 'city']].rename(columns={'city': 'count'})
+
+        states = group_by_state['state'].tolist()
+        counts = group_by_state['count'].tolist()
+
+        # sorting the state means sorting the range factors
+        sorted_states = sorted(
+            states,
+            key=lambda x: counts[states.index(x)],
+            reverse=True
+        )
+
+        # output to static HTML file
+        output_file(outfile)
+
+        # create a new plot with a title and axis labels
+        p = figure(
+            title="Phish Shows By State",
+            x_axis_label='State',
+            y_axis_label='Number of Shows',
+            x_range=sorted_states,
+            plot_width=2000
+            )
+
+        # add a line renderer with legend and line thickness
+        p.vbar(x=states, top=counts, legend="Shows By State", width=0.9)
+
+        p.xgrid.grid_line_color = None
+        p.y_range.start = 0
+
+        show(p)
+        
 
     def calculate_avg_rating(self):
         """Returns the average rating of the collection of shows"""

@@ -107,8 +107,8 @@ class TestAllTime(unittest.TestCase):
 
     def test_visualize_shows_by_year(self):
         """Test vizualize shows per year."""
-        filepath = "tests/data/output/shows_by_year.html"
-        self.collection.visualize_shows_by_year(filepath)
+        outfile = "tests/data/output/shows_by_year.html"
+        self.collection.visualize_shows_by_year(outfile)
 
     def test_write_to_csv(self):
         """Test write collection data to csv file."""
@@ -145,6 +145,11 @@ class TestAllTime(unittest.TestCase):
         # df_collection = self.collection.create_df_from_csv('tests/data/input/invalid.csv')
         with self.assertError:
             df_collection = self.collection.create_df_from_csv('tests/data/input/invalid.csv')
+
+    def test_visualize_shows_by_state(self):
+        """Test visualize shows by state."""
+        outfile = "tests/data/output/shows_by_state.html"
+        self.collection.visualize_shows_by_state(outfile)
              
 
 if __name__ == '__main__':
