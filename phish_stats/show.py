@@ -26,7 +26,6 @@ class Show():
         self.city = None
         self.rating = None
         self.venue = None
-        self.era = None
         self.song_booleans = {
             'you-enjoy-myself': 0,
             'tweezer': 0,
@@ -59,7 +58,6 @@ class Show():
             self.set_venue()
             self.set_show_location()
             self.set_song_booleans()
-            self.set_era()
 
     def parse_setlist(self):
         """Parses setlist from raw setlist data"""
@@ -157,14 +155,3 @@ class Show():
         setlist_song_ids = [song['song_id'] for song in self.setlist]
         for song_id in self.song_booleans:
             self.song_booleans[song_id] = 1 if song_id in setlist_song_ids else 0
-    
-    def set_era(self):
-        """Sets era equal to 1.0, 2.0, 3.0 based on date"""
-        if not self.year:
-            self.era = ''
-        elif self.year <= 2000:
-            self.era = '1.0'
-        elif self.year <= 2004:
-            self.era = '2.0'
-        else:
-            self.era = '3.0'
