@@ -103,7 +103,9 @@ class Collection():
     def visualize_shows_by_state(self, outfile):
         """Visualizes shows by state."""
         df_collection = self.create_collection_df()
-        group_by_state = df_collection.groupby(
+        country_mask = df_collection['country'] == 'USA'
+        df_us_shows = df_collection[country_mask]
+        group_by_state = df_us_shows.groupby(
             by=['state'],
             axis=0, 
             as_index=False
@@ -115,13 +117,16 @@ class Collection():
         counts = group_by_state['count'].tolist()
 
         data = {'states' : states}
-
+     
         for era in eras:
             data[era] = []
             for state in states:
-                state_mask = df_collection['state'] == state
-                era_mask = df_collection['era'] == era
-                count = df_collection[state_mask & era_mask].shape[0]
+                state_mask = df_us_shows['state'] == state
+                era_mask = df_us_shows['era'] == era
+                count = df_us_shows[
+                    state_mask & 
+                    era_mask
+                ].shape[0]
                 data[era].append(count)
 
         # sorting the state means sorting the range factors
@@ -140,16 +145,13 @@ class Collection():
             x_axis_label='State',
             y_axis_label='Number of Shows',
             x_range=sorted_states,
-            plot_width=2000
+            plot_width=2000,
+            toolbar_location=None, tools="hover", tooltips="$name: @$name"
             )
 
         # add a line renderer with legend and line thickness
         p.vbar_stack(eras, x='states', source=data, color=colors, width=0.9, legend=[value(x) for x in eras])
-
         p.xgrid.grid_line_color = None
-        p.y_range.start = 0
-
-        #
         p.y_range.start = 0
         p.x_range.range_padding = 0.1
         p.xgrid.grid_line_color = None
