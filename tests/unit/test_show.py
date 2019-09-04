@@ -14,7 +14,7 @@ class TestShow(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Setup function."""
-        with open('./tests/data/2018-10-21.json') as json_file:
+        with open('./tests/data/input/2018-10-21.json') as json_file:
             data = json.load(json_file)
         cls.show = Show('2018-10-21', data=data)
 
@@ -60,7 +60,7 @@ class TestCurveball(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Setup function."""
-        with open('./tests/data/2018-08-17.json') as json_file:
+        with open('./tests/data/input/2018-08-17.json') as json_file:
             data = json.load(json_file)
         cls.show = Show('2018-08-17', data=data)
 
