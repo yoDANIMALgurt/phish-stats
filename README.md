@@ -1,48 +1,27 @@
-[![CircleCI](https://circleci.com/gh/abcmer/phish-stats.svg?style=svg)](https://circleci.com/gh/abcmer/phish-stats)
+# I don't really know if I'm doing this GitHub thing right. Just building some PowerShell scripts based on this repo: https://github.com/abcmer/phish-stats
+
+
+
+
+
+
 
 # phish-stats
 
-Python package for generating statistics about the band Phish from Vermont.
+PowerShell functions for generating statistics about the band Phish from Vermont.
 
 ## Getting Started
 
-These instructions will get you set up for development and testing.
+These instructions are basic. Check the commented help in each .ps1 file for usage.
 
 ### Prerequisites
 
-- [Python 3.6](https://www.python.org/downloads/release/python-360/)
+- PowerShell v3.0 or later
 - [API key from Phish.net](http://api.phish.net/keys/)
 
 ### Installing
 
-Clone this repository and change to project root directory
-
-```
-git clone https://github.com/abcmer/phish-stats.git
-cd phish-stats
-```
-
-Create Python3.6 virtual env and activate
-
-```
-python3 -m venv venv
-source venv/bin/activate
-```
-
-Install Python3.6 dependencies
-
-```
-pip install -r requirements.txt
-```
-
-## Running the tests
-
-Run the unit tests
-
-```
-export PHISHNET_API_KEY=<API_KEY>
-python -m pytest
-```
+Load PowerShell functions and call by function name
 
 ## License
 
